@@ -13,8 +13,8 @@ namespace ScenesLoaderSystem
         #region Vars
 
         [Header("Header")]
-        [SerializeField] private SceneDataSO loadingScreenData;
-        [SerializeField] private SceneDataSO firstOpenSceneData;
+        [SerializeField] private SceneDataSO _loadingScreenData;
+        [SerializeField] private SceneDataSO _firstOpenSceneData;
 
         [Header("Debug")]
         [SerializeField] private int _progress;
@@ -23,7 +23,11 @@ namespace ScenesLoaderSystem
 
         private List<AsyncOperation> _operations;
 
+        private SceneRemover _sceneRemover = new SceneRemover();
+
         public int Progress { get => _progress; }
+
+        public Action OnAllScenesAreLoaded { get; set; }
 
         #endregion
 
@@ -39,7 +43,7 @@ namespace ScenesLoaderSystem
 
             InitVariables();
 
-            _openScenes.Add(firstOpenSceneData.SceneData);
+            _openScenes.Add(_firstOpenSceneData.SceneData);
         }
 
         private void InitVariables()
@@ -68,7 +72,9 @@ namespace ScenesLoaderSystem
         {
             await LoadLoadingScreenAsync();
 
-            RemoveOpenScenes();
+            await Task.Delay(1);
+
+            _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
 
             OpenScenes();
 
@@ -81,9 +87,10 @@ namespace ScenesLoaderSystem
 
         private async Task LoadLoadingScreenAsync()
         {
-            if (_currentSceneData.useLoadingScreen == false) return;
+            if (_currentSceneData.useLoadingScreen == false)
+                return;
 
-            AsyncOperation loadLoadingOperation = SceneManager.LoadSceneAsync(loadingScreenData.SceneData.nameScene, LoadSceneMode.Additive);
+            AsyncOperation loadLoadingOperation = SceneManager.LoadSceneAsync(_loadingScreenData.SceneData.nameScene, LoadSceneMode.Additive);
 
             while (!loadLoadingOperation.isDone)
             {
@@ -91,45 +98,21 @@ namespace ScenesLoaderSystem
             }
         }
 
-        #region Remove Scene
-
-        private void RemoveOpenScenes()
-        {
-            for (int i = 0; i < _openScenes.Count; i++)
-            {
-                if (CantRemoveThisScene(_openScenes[i])) continue;
-
-                RemoveScene(_openScenes[i]);
-
-                i--;
-            }
-        }
-
-        private void RemoveScene(SceneData openScene)
-        {
-            AsyncOperation removeSceneOperation = SceneManager.UnloadSceneAsync(openScene.nameScene);
-
-            _operations.Add(removeSceneOperation);
-
-            _openScenes.Remove(openScene);
-        }
-
-        private bool CantRemoveThisScene(SceneData sceneData)
-        {
-            return sceneData.isLockedScene && !_currentSceneData.removeLockedScenes;
-        }
-
-        #endregion
-
         #region Open Scene
 
         private void OpenScenes()
         {
             SceneData[] scenesToLoad = _currentSceneData.GetAllScenesToOpen();
 
+            OpenScenesByDatas(scenesToLoad);
+        }
+
+        private void OpenScenesByDatas(SceneData[] scenesToLoad)
+        {
             foreach (var sceneData in scenesToLoad)
             {
-                if (IsThisSceneOpen(sceneData)) continue;
+                if (IsThisSceneOpen(sceneData))
+                    continue;
 
                 OpenScene(sceneData);
             }
@@ -157,6 +140,7 @@ namespace ScenesLoaderSystem
             float totalProgress = 0;
 
             foreach (var operation in _operations)
+            {
                 while (!operation.isDone)
                 {
                     totalProgress += operation.progress;
@@ -165,16 +149,18 @@ namespace ScenesLoaderSystem
 
                     await Task.Delay(1);
                 }
+            }
         }
 
         private void UnloadLoadingScreen()
         {
             if (_currentSceneData.useLoadingScreen)
-                SceneManager.UnloadSceneAsync(loadingScreenData.SceneData.nameScene);
+                SceneManager.UnloadSceneAsync(_loadingScreenData.SceneData.nameScene);
         }
 
         private void OnAllOperationsDone()
         {
+            OnAllScenesAreLoaded?.Invoke();
             Debug.Log("All scene are loaded");
         }
 
