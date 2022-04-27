@@ -1,3 +1,2 @@
-# Unity Package Template
+#SceneLoader
 
-This is a template for an empty unity package
