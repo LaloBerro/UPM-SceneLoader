@@ -159,7 +159,7 @@ namespace ScenesLoaderSystem
             foreach (var sceneData in _openScenes)
             {
                 if (!sceneData.isPrincipal)
-                    return;
+                    continue;
 
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneData.nameScene));
             }
