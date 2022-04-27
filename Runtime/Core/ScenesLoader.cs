@@ -80,6 +80,8 @@ namespace ScenesLoaderSystem
 
             await WaitToAllOperationsDoneAsync();
 
+            SetPrincipalScene();
+
             UnloadLoadingScreen();
 
             OnAllOperationsDone();
@@ -149,6 +151,17 @@ namespace ScenesLoaderSystem
 
                     await Task.Delay(1);
                 }
+            }
+        }
+
+        private void SetPrincipalScene()
+        {
+            foreach (var sceneData in _openScenes)
+            {
+                if (!sceneData.isPrincipal)
+                    return;
+
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneData.nameScene));
             }
         }
 
