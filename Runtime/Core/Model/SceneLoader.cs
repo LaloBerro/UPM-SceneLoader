@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace ScenesLoaderSystem
 {
+
     public class SceneLoader : ISceneLoader
     {
         private readonly SceneData _loadingScreenSceneData;

@@ -12,8 +12,9 @@ namespace ScenesLoaderSystem
 
         public void Load()
         {
-            ServiceLocator.Instance.Get<ISceneLoader>().LoadScene(_sceneDataSO.SceneData);
             //ScenesLoader.Instance.LoadScene(_sceneDataSO);
+
+            ServiceLocator.Instance.Get<ISceneLoader>().LoadScene(_sceneDataSO.SceneData);
         }
     }
 }
