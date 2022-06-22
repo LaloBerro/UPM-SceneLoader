@@ -14,5 +14,12 @@
     "url": ""
   },
   "type": "tool",
-  "hideInEditor": false
+  "hideInEditor": false,
+  "samples": [
+    {
+      "displayName": "Samples&Resources",
+      "description": "",
+      "path": "Samples~/SceneLoader"
+    }
+  ]
 }
