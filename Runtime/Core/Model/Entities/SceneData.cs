@@ -13,6 +13,8 @@ namespace ScenesLoaderSystem
 
         public SceneDataSO[] scenesData;
 
+        public string Name => nameScene;
+
         public SceneData[] GetAllScenesToOpen()
         {
             List<SceneData> scenesToOpen = new List<SceneData>();
@@ -28,20 +30,14 @@ namespace ScenesLoaderSystem
                 SceneData[] scenesIntoSceneData = scenesToOpen[i].GetAllScenesToOpen();
                 foreach (var sceneDataInto in scenesIntoSceneData)
                 {
+                    if (scenesToOpen.Contains(sceneDataInto))
+                        continue;
+
                     scenesToOpen.Add(sceneDataInto);
                 }
             }
 
             scenesToOpen.Add(this);
-
-            /* SceneData[] scenes = new SceneData[scenesData.Length + 1];
-
-             scenes[scenesData.Length] = this;
-
-             for (int i = 0; i < scenesData.Length; i++)
-             {
-                 scenes[i] = scenesData[i].SceneData;
-             }*/
 
             return scenesToOpen.ToArray();
         }

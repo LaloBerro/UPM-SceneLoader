@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace ScenesLoaderSystem
 {
-    [Serializable]
+    [Obsolete]
     public class ScenesLoader : MonoSingleton<ScenesLoader>
     {
         #region Vars

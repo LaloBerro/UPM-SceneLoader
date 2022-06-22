@@ -1,7 +1,10 @@
+using System;
+using ServiceLocatorPattern;
 using UnityEngine;
 
 namespace ScenesLoaderSystem
 {
+    [Obsolete]
     public class LoadScene : MonoBehaviour
     {
         [Header("References")]
@@ -9,7 +12,8 @@ namespace ScenesLoaderSystem
 
         public void Load()
         {
-            ScenesLoader.Instance.LoadScene(_sceneDataSO);
+            ServiceLocator.Instance.Get<ISceneLoader>().LoadScene(_sceneDataSO.SceneData);
+            //ScenesLoader.Instance.LoadScene(_sceneDataSO);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ScenesLoaderSystem
 
             while (!removeSceneOperation.isDone)
             {
-                await Task.Delay(1);
+                await Task.Yield();
             }
         }
     }
