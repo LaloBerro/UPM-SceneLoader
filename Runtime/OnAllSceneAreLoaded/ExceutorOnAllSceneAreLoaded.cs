@@ -1,3 +1,4 @@
+using ServiceLocatorPattern;
 using UnityEngine;
 
 namespace ScenesLoaderSystem
@@ -6,14 +7,14 @@ namespace ScenesLoaderSystem
     {
         private void Awake()
         {
-            ScenesLoader.Instance.OnAllScenesAreLoaded += OnAllSceneAreLoaded;
+            ServiceLocator.Instance.Get<ISceneLoader>().OnAllScenesAreLoaded += OnAllSceneAreLoaded;
         }
 
         protected abstract void OnAllSceneAreLoaded();
 
         private void OnDestroy()
         {
-            ScenesLoader.Instance.OnAllScenesAreLoaded -= OnAllSceneAreLoaded;
+            ServiceLocator.Instance.Get<ISceneLoader>().OnAllScenesAreLoaded -= OnAllSceneAreLoaded;
         }
     }
 }
