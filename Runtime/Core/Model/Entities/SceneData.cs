@@ -10,6 +10,7 @@ namespace ScenesLoaderSystem
         public bool isLockedScene;
         public bool removeLockedScenes;
         public bool isPrincipal;
+        public bool dontCloseOthersScenes;
 
         public SceneDataSO[] scenesData;
 

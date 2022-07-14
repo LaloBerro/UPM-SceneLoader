@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 namespace ScenesLoaderSystem
 {
-
     public class SceneLoader : ISceneLoader
     {
         private readonly SceneData _loadingScreenSceneData;
@@ -34,7 +33,8 @@ namespace ScenesLoaderSystem
 
             await LoadLoadingScreenAsync();
 
-            _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
+            if (!sceneData.dontCloseOthersScenes)
+                _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
 
             OpenScenes();
         }
@@ -60,7 +60,6 @@ namespace ScenesLoaderSystem
 
             foreach (var sceneData in scenesToLoad)
             {
-                Debug.Log("Add scene to opnes: " + sceneData.Name);
                 _scenesToOpenQueue.Enqueue(sceneData);
             }
 
@@ -87,12 +86,13 @@ namespace ScenesLoaderSystem
             _openScenes.Add(sceneData);
         }
 
-        public void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand)
+        public async void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand)
         {
+            //Added for security reasons beacause not always load the scene correctly
+            await Task.Delay(10);
+
             if (nodeCommand != null)
                 _nodeCommands.Add(nodeCommand);
-
-            Debug.Log("SetNodeCommandOfALoadedScene " + nodeCommand + " | count: " + _nodeCommands.Count);
 
             if (_scenesToOpenQueue.Count <= 0)
             {
@@ -116,15 +116,19 @@ namespace ScenesLoaderSystem
             _commandQueue.Execute();
         }
 
-        private void AllSceneLoaded()
+        private async void AllSceneLoaded()
         {
             if (_commandQueue != null)
                 _commandQueue.OnExecutionDone -= AllSceneLoaded;
 
             SetPrincipalScene();
 
+            //Added for security reasons beacause not always load the scene correctly, so we need to wait the main thread
+            await Task.Delay(10);
+
             if (_currentSceneData.useLoadingScreen)
                 SceneManager.UnloadSceneAsync(_loadingScreenSceneData.Name);
+
 
             OnAllScenesAreLoaded?.Invoke();
         }

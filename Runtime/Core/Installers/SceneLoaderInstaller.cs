@@ -9,6 +9,7 @@ namespace ScenesLoaderSystem
         [Header("References")]
         [SerializeField] private SceneDataSO _loadingScreenSceneDataSo;
         [SerializeField] private SceneDataSO _firstOpenSceneDataSo;
+
         public override void Install()
         {
             ISceneLoader sceneLoader = new SceneLoader(_loadingScreenSceneDataSo.SceneData, _firstOpenSceneDataSo.SceneData);

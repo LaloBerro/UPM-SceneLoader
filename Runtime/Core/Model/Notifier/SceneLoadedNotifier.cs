@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CommandQueues.Core;
 using Installers.Core;
 using ServiceLocatorPattern;
@@ -10,9 +11,9 @@ namespace ScenesLoaderSystem
         [Header("References")]
         [SerializeField] private MonoInstaller<ICommandQueue> _commandQueueInstaller;
 
-        private void Start()
+        private async void Start()
         {
-            Debug.Log("2 SceneLoadedNotifier");
+            await Task.Yield();
             ServiceLocator.Instance.Get<ISceneLoader>().SetNodeCommandOfALoadedScene(_commandQueueInstaller.Data);
         }
     }
