@@ -11,7 +11,7 @@ namespace ScenesLoaderSystem
         {
             for (int i = 0; i < openSceneDatas.Count; i++)
             {
-                if (openSceneDatas[i].isLockedScene && !removeLockedScenes)
+                if (openSceneDatas[i].isLockedScene && !removeLockedScenes || openSceneDatas[i].hasToKeepOpen)
                     continue;
 
                 await RemoveScene(openSceneDatas[i]);

@@ -6,7 +6,7 @@ namespace ScenesLoaderSystem
     public interface ISceneLoader
     {
         Action OnAllScenesAreLoaded { get; set; }
-        void LoadScene(SceneData sceneData);
+        void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false);
         void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand);
     }
 }
