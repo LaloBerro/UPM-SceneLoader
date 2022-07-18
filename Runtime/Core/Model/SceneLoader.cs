@@ -33,7 +33,10 @@ namespace ScenesLoaderSystem
 
             await LoadLoadingScreenAsync();
 
-            if (!sceneData.dontCloseOthersScenes || !dontRemoveOpenScenes)
+            bool hastoCloseOtherScenes = !sceneData.dontCloseOthersScenes;
+            bool mustRemoveOpenScenes = !dontRemoveOpenScenes;
+
+            if (hastoCloseOtherScenes && mustRemoveOpenScenes)
                 _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
 
             OpenScenes();
