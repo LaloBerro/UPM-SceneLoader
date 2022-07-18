@@ -17,7 +17,6 @@ namespace ScenesLoaderSystem
         private Queue<SceneData> _scenesToOpenQueue;
         private List<INodeCommand> _nodeCommands;
         private CommandQueue _commandQueue;
-        private bool _hasToRemoveOpenScenes;
 
         public Action OnAllScenesAreLoaded { get; set; }
 
@@ -28,14 +27,13 @@ namespace ScenesLoaderSystem
             _openScenes.Add(firstOpenSceneData);
         }
 
-        public async void LoadScene(SceneData sceneData, bool hasToRemoveOpenScenes = false)
+        public async void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false)
         {
             _currentSceneData = sceneData;
-            _hasToRemoveOpenScenes = hasToRemoveOpenScenes;
 
             await LoadLoadingScreenAsync();
 
-            if (!sceneData.dontCloseOthersScenes || !_hasToRemoveOpenScenes)
+            if (!sceneData.dontCloseOthersScenes || !dontRemoveOpenScenes)
                 _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
 
             OpenScenes();

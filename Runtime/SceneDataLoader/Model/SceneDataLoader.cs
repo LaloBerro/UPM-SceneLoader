@@ -11,9 +11,9 @@ namespace ScenesLoaderSystem
             _sceneData = sceneData;
         }
 
-        public void Load(bool hasToRemoveOpenScenes = false)
+        public void Load(bool dontRemoveOpenScenes = false)
         {
-            _sceneLoader.LoadScene(_sceneData);
+            _sceneLoader.LoadScene(_sceneData, dontRemoveOpenScenes);
         }
     }
 }
