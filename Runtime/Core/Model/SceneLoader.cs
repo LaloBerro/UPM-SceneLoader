@@ -71,6 +71,9 @@ namespace ScenesLoaderSystem
 
         private void OpenNextScene()
         {
+            if (_scenesToOpenQueue.Count <= 0)
+                return;
+
             SceneData sceneData = _scenesToOpenQueue.Dequeue();
 
             if (_openScenes.Contains(sceneData))
