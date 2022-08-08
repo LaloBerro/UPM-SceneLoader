@@ -1,11 +1,10 @@
-using Installers.Core;
+﻿using Installers.Core;
 using ServiceLocatorPattern;
 using UnityEngine;
 
 namespace ScenesLoaderSystem
 {
-
-    public class SceneDataLoaderInstaller : MonoInstaller<ISceneDataLoader>
+    public class RemoveCurrentAndSetPrincipalSceneInstaller : MonoInstaller<ISceneDataLoader>
     {
         [Header("References")]
         [SerializeField] private SceneDataSO _sceneDataSO;
@@ -14,7 +13,7 @@ namespace ScenesLoaderSystem
         {
             ISceneLoader sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
 
-            return new SceneDataLoader(sceneLoader, _sceneDataSO.SceneData);
+            return new RemoveCurrentAndSetPrincipalScene(sceneLoader, _sceneDataSO.SceneData);
         }
     }
 }
