@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ScenesLoaderSystem
 {
+
     public class SceneDataLoaderInstaller : MonoInstaller<SceneDataLoader>
     {
         [Header("References")]

@@ -1,6 +1,6 @@
 namespace ScenesLoaderSystem
 {
-    public class SceneDataLoader
+    public class SceneDataLoader : ISceneDataLoader
     {
         private readonly ISceneLoader _sceneLoader;
         private readonly SceneData _sceneData;
@@ -14,6 +14,11 @@ namespace ScenesLoaderSystem
         public void Load(bool dontRemoveOpenScenes = false)
         {
             _sceneLoader.LoadScene(_sceneData, dontRemoveOpenScenes);
+        }
+
+        public void RemoveCurrentAndSetPrincipal(SceneData currentSceneData)
+        {
+            _sceneLoader.RemoveCurrentAndSetPrincipal(currentSceneData);
         }
     }
 }
