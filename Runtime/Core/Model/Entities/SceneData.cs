@@ -47,6 +47,9 @@ namespace ScenesLoaderSystem
 
         public SceneData[] GetAllSceneDatasToRemove()
         {
+            if (ReferenceEquals(_scenesDataToRemove, null))
+                return;
+
             List<SceneData> scenesToRemove = new List<SceneData>();
 
             foreach (var sceneDataSO in _scenesDataToRemove)

@@ -48,6 +48,9 @@ namespace ScenesLoaderSystem
         {
             SceneData[] sceneDatas = _currentSceneData.GetAllSceneDatasToRemove();
 
+            if (ReferenceEquals(sceneDatas, null))
+                return;
+
             foreach (var sceneData in sceneDatas)
             {
                 if (!_openScenes.Contains(sceneData))
