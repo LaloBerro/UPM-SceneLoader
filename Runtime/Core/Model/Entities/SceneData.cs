@@ -48,7 +48,7 @@ namespace ScenesLoaderSystem
         public SceneData[] GetAllSceneDatasToRemove()
         {
             if (ReferenceEquals(_scenesDataToRemove, null))
-                return;
+                return null;
 
             List<SceneData> scenesToRemove = new List<SceneData>();
 
