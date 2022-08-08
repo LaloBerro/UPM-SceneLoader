@@ -180,5 +180,10 @@ namespace ScenesLoaderSystem
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneData.nameScene));
             }
         }
+
+        public bool IsThiSceneDataOpen(SceneData sceneData)
+        {
+            return _openScenes.Contains(sceneData);
+        }
     }
 }

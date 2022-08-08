@@ -9,5 +9,6 @@ namespace ScenesLoaderSystem
         void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false);
         void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand);
         void RemoveCurrentAndSetPrincipal(SceneData currentSceneData);
+        bool IsThiSceneDataOpen(SceneData sceneData);
     }
 }
