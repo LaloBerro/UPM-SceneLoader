@@ -8,5 +8,6 @@ namespace ScenesLoaderSystem
         Action OnAllScenesAreLoaded { get; set; }
         void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false);
         void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand);
+        void RemoveCurrentAndSetPrincipal(SceneData currentSceneData);
     }
 }
