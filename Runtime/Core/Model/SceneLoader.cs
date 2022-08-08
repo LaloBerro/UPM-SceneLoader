@@ -27,6 +27,18 @@ namespace ScenesLoaderSystem
             _openScenes.Add(firstOpenSceneData);
         }
 
+        public async void RemoveCurrentAndSetPrincipal(SceneData currentSceneData)
+        {
+            await LoadLoadingScreenAsync();
+
+            await _sceneRemover.RemoveScene(_currentSceneData);
+            _openScenes.Remove(_currentSceneData);
+
+            _currentSceneData = currentSceneData;
+
+            AllSceneLoaded();
+        }
+
         public async void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false)
         {
             _currentSceneData = sceneData;
