@@ -14,6 +14,7 @@ namespace ScenesLoaderSystem
         public bool hasToKeepOpen;
 
         public SceneDataSO[] scenesData;
+        public SceneDataSO[] _scenesDataToRemove;
 
         public string Name => nameScene;
 
@@ -42,6 +43,18 @@ namespace ScenesLoaderSystem
             scenesToOpen.Add(this);
 
             return scenesToOpen.ToArray();
+        }
+
+        public SceneData[] GetAllSceneDatasToRemove()
+        {
+            List<SceneData> scenesToRemove = new List<SceneData>();
+
+            foreach (var sceneDataSO in _scenesDataToRemove)
+            {
+                scenesToRemove.Add(sceneDataSO.SceneData);
+            }
+
+            return scenesToRemove.ToArray();
         }
     }
 }

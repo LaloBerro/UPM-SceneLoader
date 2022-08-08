@@ -24,7 +24,7 @@ namespace ScenesLoaderSystem
             return openSceneDatas;
         }
 
-        private async Task RemoveScene(SceneData openScene)
+        public async Task RemoveScene(SceneData openScene)
         {
             AsyncOperation removeSceneOperation = SceneManager.UnloadSceneAsync(openScene.nameScene);
 

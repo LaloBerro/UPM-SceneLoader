@@ -39,7 +39,23 @@ namespace ScenesLoaderSystem
             if (hastoCloseOtherScenes && mustRemoveOpenScenes)
                 _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
 
+            await RemoveScenesFromCurrentSceneData();
+
             OpenScenes();
+        }
+
+        private async Task RemoveScenesFromCurrentSceneData()
+        {
+            SceneData[] sceneDatas = _currentSceneData.GetAllSceneDatasToRemove();
+
+            foreach (var sceneData in sceneDatas)
+            {
+                if (!_openScenes.Contains(sceneData))
+                    continue;
+
+                await _sceneRemover.RemoveScene(sceneData);
+                _openScenes.Remove(sceneData);
+            }
         }
 
         private async Task LoadLoadingScreenAsync()
