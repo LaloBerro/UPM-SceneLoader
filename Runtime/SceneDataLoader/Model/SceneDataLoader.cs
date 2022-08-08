@@ -15,5 +15,10 @@ namespace ScenesLoaderSystem
         {
             _sceneLoader.LoadScene(_sceneData, dontRemoveOpenScenes);
         }
+
+        public void RemoveCurrentAndSetPrincipal(SceneData currentSceneData)
+        {
+            _sceneLoader.RemoveCurrentAndSetPrincipal(currentSceneData);
+        }
     }
 }

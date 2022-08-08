@@ -5,12 +5,12 @@ using UnityEngine;
 namespace ScenesLoaderSystem
 {
 
-    public class SceneDataLoaderInstaller : MonoInstaller<ISceneDataLoader>
+    public class SceneDataLoaderInstaller : MonoInstaller<SceneDataLoader>
     {
         [Header("References")]
         [SerializeField] private SceneDataSO _sceneDataSO;
 
-        protected override ISceneDataLoader GetData()
+        protected override SceneDataLoader GetData()
         {
             ISceneLoader sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
 
