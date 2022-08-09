@@ -16,14 +16,14 @@ namespace ScenesLoaderSystem
             _sceneLoader.LoadScene(_sceneData, dontRemoveOpenScenes);
         }
 
-        public void RemoveCurrentAndSetPrincipal(SceneData currentSceneData)
+        public void RemoveCurrentAndSetPrincipalSceneData()
         {
-            _sceneLoader.RemoveCurrentAndSetPrincipal(currentSceneData);
+            _sceneLoader.RemoveCurrentAndSetPrincipal(_sceneData);
         }
 
-        public bool IsThiSceneDataOpen(SceneData sceneData)
+        public bool IsThiSceneDataOpenWithOutSceneData()
         {
-            return _sceneLoader.IsThiSceneDataOpen(sceneData);
+            return _sceneLoader.IsThiSceneDataOpen(_sceneData);
         }
     }
 }
