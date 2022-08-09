@@ -20,5 +20,10 @@ namespace ScenesLoaderSystem
         {
             _sceneLoader.RemoveCurrentAndSetPrincipal(currentSceneData);
         }
+
+        public bool IsThiSceneDataOpen(SceneData sceneData)
+        {
+            return _sceneLoader.IsThiSceneDataOpen(sceneData);
+        }
     }
 }
