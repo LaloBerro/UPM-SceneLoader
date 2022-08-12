@@ -24,13 +24,9 @@ namespace ScenesLoaderSystem
 
             foreach (var sceneDataSO in scenesData)
             {
-                scenesToOpen.Add(sceneDataSO.SceneData);
-            }
+                SceneData sceneData = sceneDataSO.SceneData;
+                SceneData[] scenesIntoSceneData = sceneData.GetAllScenesToOpen();
 
-            int totalScenesToLoad = scenesToOpen.Count;
-            for (var i = 0; i < totalScenesToLoad; i++)
-            {
-                SceneData[] scenesIntoSceneData = scenesToOpen[i].GetAllScenesToOpen();
                 foreach (var sceneDataInto in scenesIntoSceneData)
                 {
                     if (scenesToOpen.Contains(sceneDataInto))
@@ -38,6 +34,8 @@ namespace ScenesLoaderSystem
 
                     scenesToOpen.Add(sceneDataInto);
                 }
+
+                scenesToOpen.Add(sceneData);
             }
 
             scenesToOpen.Add(this);
