@@ -1,15 +1,15 @@
-using Installers.Core;
 using ServiceLocatorPattern;
 using UnityEngine;
+using ZenjectExtensions.Zinstallers;
 
 namespace ScenesLoaderSystem
 {
-    public class SceneDataLoaderInstaller : MonoInstaller<SceneDataLoader>
+    public class SceneDataLoaderZinstaller : InstanceZinstaller<ISceneDataLoader>
     {
         [Header("References")]
         [SerializeField] private SceneDataSO _sceneDataSO;
 
-        protected override SceneDataLoader GetData()
+        protected override ISceneDataLoader GetInitializedClass()
         {
             ISceneLoader sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
 
