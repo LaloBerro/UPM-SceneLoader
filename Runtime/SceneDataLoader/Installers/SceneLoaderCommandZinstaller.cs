@@ -4,7 +4,7 @@ using ZenjectExtensions.Zinstallers;
 
 namespace ScenesLoaderSystem
 {
-    public class SceneLoaderCommandZinstaller : InstanceZinstaller<ICommand>
+    public class SceneLoaderCommandZinstaller : CachedInstanceZinstaller<ICommand>
     {
         private ISceneDataLoader _sceneDataLoader;
 
