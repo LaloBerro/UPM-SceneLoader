@@ -1,4 +1,5 @@
 using CommandQueues.Core;
+using ServiceLocatorPattern;
 using Zenject;
 using ZenjectExtensions.Zinstallers;
 
@@ -10,9 +11,9 @@ namespace ScenesLoaderSystem
         private ICommandQueue _commandQueue;
 
         [Inject]
-        public void InjectDependecies(ISceneLoader sceneLoader, ICommandQueue commandQueue)
+        public void InjectDependecies(ICommandQueue commandQueue)
         {
-            _sceneLoader = sceneLoader;
+            _sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
             _commandQueue = commandQueue;
         }
 
