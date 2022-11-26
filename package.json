@@ -1,7 +1,7 @@
 {
-  "name": "com.tgl.sceneloader",
+  "name": "com.lalo.sceneloader",
   "version": "2.7.1",
-  "displayName": "TGL - SceneLoader",
+  "displayName": "SceneLoader",
   "unity": "2020.3",
   "unityRelease": "0b5",
   "documentationUrl": "",
@@ -9,7 +9,7 @@
   "licensesUrl": "",
   "keywords": [],
   "author": {
-    "name": "TGL",
+    "name": "Lalo",
     "email": "",
     "url": ""
   },
