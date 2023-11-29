@@ -10,6 +10,7 @@ namespace ScenesLoaderSystem.Core.Domain
     public class SceneLoader : ISceneLoader
     {
         private readonly SceneData _loadingScreenSceneData;
+        private readonly SceneData _emptySceneData;
 
         private SceneData _currentSceneData;
         private List<SceneData> _openScenes = new List<SceneData>();
@@ -41,6 +42,9 @@ namespace ScenesLoaderSystem.Core.Domain
 
         public async void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false)
         {
+            if (string.IsNullOrEmpty(sceneData.SceneName))
+                throw new Exception("SceneLoader Error: Trying to Load a Scene with empty name.");
+            
             _currentSceneData = sceneData;
 
             await LoadLoadingScreenAsync();
@@ -78,7 +82,12 @@ namespace ScenesLoaderSystem.Core.Domain
             if (_currentSceneData.HasToUseLoadingScreen == false)
                 return;
 
-            AsyncOperation loadLoadingOperation = SceneManager.LoadSceneAsync(_loadingScreenSceneData.SceneName, LoadSceneMode.Additive);
+            await LoadSceneAsync(_loadingScreenSceneData.SceneName);
+        }
+        
+        private async Task LoadSceneAsync(string sceneName)
+        {
+            AsyncOperation loadLoadingOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
             while (!loadLoadingOperation.isDone)
             {
@@ -187,9 +196,16 @@ namespace ScenesLoaderSystem.Core.Domain
             return _openScenes.Contains(sceneData);
         }
 
-        public void ReloadCurrentScene()
+        public async void ReloadCurrentScene()
         {
+            await LoadSceneAsync(_loadingScreenSceneData.SceneName);
+            await LoadSceneAsync(_emptySceneData.SceneName);
+
+            _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.HasToRemoveLockedScenes);
+            
             LoadScene(_currentSceneData);
+            
+            SceneManager.UnloadSceneAsync(_emptySceneData.SceneName);
         }
     }
 }
