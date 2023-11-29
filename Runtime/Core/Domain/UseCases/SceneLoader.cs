@@ -174,11 +174,21 @@ namespace ScenesLoaderSystem.Core.Domain
             //Added for security reasons because not always load the scene correctly, so we need to wait the main thread
             await Task.Delay(10);
 
-            if (_currentSceneData.HasToUseLoadingScreen)
-                SceneManager.UnloadSceneAsync(_loadingScreenSceneData.SceneName);
-
+            UnloadTransitionScenes();
 
             OnAllScenesAreLoaded?.Invoke();
+        }
+
+        private void UnloadTransitionScenes()
+        {
+            int totalScene = SceneManager.sceneCount;
+            for (int i = 0; i < totalScene; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+
+                if (scene.name == _loadingScreenSceneData.SceneName || scene.name == _emptySceneData.SceneName)
+                    SceneManager.UnloadSceneAsync(scene);
+            }
         }
 
         private void SetPrincipalScene()
@@ -205,8 +215,6 @@ namespace ScenesLoaderSystem.Core.Domain
             _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.HasToRemoveLockedScenes);
             
             LoadScene(_currentSceneData);
-            
-            SceneManager.UnloadSceneAsync(_emptySceneData.SceneName);
         }
     }
 }
