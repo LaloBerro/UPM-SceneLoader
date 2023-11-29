@@ -21,9 +21,10 @@ namespace ScenesLoaderSystem.Core.Domain
 
         public Action OnAllScenesAreLoaded { get; set; }
 
-        public SceneLoader(SceneData loadingScreenSceneData, SceneData firstOpenSceneData)
+        public SceneLoader(SceneData loadingScreenSceneData, SceneData firstOpenSceneData, SceneData emptySceneData)
         {
             _loadingScreenSceneData = loadingScreenSceneData;
+            _emptySceneData = emptySceneData;
 
             _openScenes.Add(firstOpenSceneData);
         }

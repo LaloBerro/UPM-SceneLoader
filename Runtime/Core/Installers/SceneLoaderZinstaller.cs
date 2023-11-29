@@ -11,11 +11,12 @@ namespace ScenesLoaderSystem.Core.Installers
     {
         [Header("References")]
         [SerializeField] private SceneDataSO _loadingScreenSceneDataSo;
+        [SerializeField] private SceneDataSO _emptySceneDataSo;
         [SerializeField] private SceneDataSO _firstOpenSceneDataSo;
         
         public override void Install()
         {
-            ISceneLoader sceneLoader = new SceneLoader(_loadingScreenSceneDataSo.GetSceneData(), _firstOpenSceneDataSo.GetSceneData());
+            ISceneLoader sceneLoader = new SceneLoader(_loadingScreenSceneDataSo.GetSceneData(), _firstOpenSceneDataSo.GetSceneData(), _emptySceneDataSo.GetSceneData());
 
             ServiceLocator.Instance.Register<ISceneLoader>(sceneLoader);
         }
