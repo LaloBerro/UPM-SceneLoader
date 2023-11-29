@@ -1,3 +1,5 @@
+using ScenesLoaderSystem.Core.Domain;
+using ScenesLoaderSystem.Core.InterfaceAdapters;
 using ServiceLocatorPattern;
 using UnityEngine;
 using ZenjectExtensions.Zinstallers;
@@ -13,7 +15,7 @@ namespace ScenesLoaderSystem
         {
             ISceneLoader sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
 
-            return new SceneDataLoader(sceneLoader, _sceneDataSO.SceneData);
+            return new SceneDataLoader(sceneLoader, _sceneDataSO.GetSceneData());
         }
     }
 }

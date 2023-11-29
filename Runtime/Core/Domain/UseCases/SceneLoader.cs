@@ -5,7 +5,7 @@ using CommandQueues.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace ScenesLoaderSystem
+namespace ScenesLoaderSystem.Core.Domain
 {
     public class SceneLoader : ISceneLoader
     {
@@ -45,11 +45,11 @@ namespace ScenesLoaderSystem
 
             await LoadLoadingScreenAsync();
 
-            bool hastoCloseOtherScenes = !sceneData.dontCloseOthersScenes;
+            bool hasToCloseOtherScenes = sceneData.HasToCloseOthersScenes;
             bool mustRemoveOpenScenes = !dontRemoveOpenScenes;
 
-            if (hastoCloseOtherScenes && mustRemoveOpenScenes)
-                _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.removeLockedScenes);
+            if (hasToCloseOtherScenes && mustRemoveOpenScenes)
+                _openScenes = await _sceneRemover.RemoveScenes(_openScenes, _currentSceneData.HasToRemoveLockedScenes);
 
             await RemoveScenesFromCurrentSceneData();
 
@@ -58,7 +58,7 @@ namespace ScenesLoaderSystem
 
         private async Task RemoveScenesFromCurrentSceneData()
         {
-            SceneData[] sceneDatas = _currentSceneData.GetAllSceneDatasToRemove();
+            SceneData[] sceneDatas = _currentSceneData.GetAllScenesDataToRemove();
 
             if (ReferenceEquals(sceneDatas, null))
                 return;
@@ -75,10 +75,10 @@ namespace ScenesLoaderSystem
 
         private async Task LoadLoadingScreenAsync()
         {
-            if (_currentSceneData.useLoadingScreen == false)
+            if (_currentSceneData.HasToUseLoadingScreen == false)
                 return;
 
-            AsyncOperation loadLoadingOperation = SceneManager.LoadSceneAsync(_loadingScreenSceneData.Name, LoadSceneMode.Additive);
+            AsyncOperation loadLoadingOperation = SceneManager.LoadSceneAsync(_loadingScreenSceneData.SceneName, LoadSceneMode.Additive);
 
             while (!loadLoadingOperation.isDone)
             {
@@ -102,30 +102,31 @@ namespace ScenesLoaderSystem
 
         private void OpenNextScene()
         {
-            if (_scenesToOpenQueue.Count <= 0)
-                return;
-
-            SceneData sceneData = _scenesToOpenQueue.Dequeue();
-
-            if (_openScenes.Contains(sceneData))
+            while (true)
             {
-                OpenNextScene();
-                return;
-            }
+                if (_scenesToOpenQueue.Count <= 0) 
+                    return;
 
-            OpenScene(sceneData);
+                SceneData sceneData = _scenesToOpenQueue.Dequeue();
+
+                if (_openScenes.Contains(sceneData))
+                    continue;
+                
+                OpenScene(sceneData);
+                break;
+            }
         }
 
         private void OpenScene(SceneData sceneData)
         {
-            SceneManager.LoadSceneAsync(sceneData.Name, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(sceneData.SceneName, LoadSceneMode.Additive);
 
             _openScenes.Add(sceneData);
         }
 
         public async void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand)
         {
-            //Added for security reasons beacause not always load the scene correctly, so we need to wait the main thread
+            //Added for security reasons because not always load the scene correctly, so we need to wait the main thread
             await Task.Delay(10);
 
             if (nodeCommand != null)
@@ -140,7 +141,7 @@ namespace ScenesLoaderSystem
             OpenNextScene();
         }
 
-        public void InitializeScenes()
+        private void InitializeScenes()
         {
             if (_nodeCommands.Count <= 0)
             {
@@ -160,11 +161,11 @@ namespace ScenesLoaderSystem
 
             SetPrincipalScene();
 
-            //Added for security reasons beacause not always load the scene correctly, so we need to wait the main thread
+            //Added for security reasons because not always load the scene correctly, so we need to wait the main thread
             await Task.Delay(10);
 
-            if (_currentSceneData.useLoadingScreen)
-                SceneManager.UnloadSceneAsync(_loadingScreenSceneData.Name);
+            if (_currentSceneData.HasToUseLoadingScreen)
+                SceneManager.UnloadSceneAsync(_loadingScreenSceneData.SceneName);
 
 
             OnAllScenesAreLoaded?.Invoke();
@@ -174,16 +175,21 @@ namespace ScenesLoaderSystem
         {
             foreach (var sceneData in _openScenes)
             {
-                if (!sceneData.isPrincipal)
+                if (!sceneData.IsPrincipal)
                     continue;
 
-                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneData.nameScene));
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneData.SceneName));
             }
         }
 
-        public bool IsThiSceneDataOpen(SceneData sceneData)
+        public bool IsThisSceneDataOpened(SceneData sceneData)
         {
             return _openScenes.Contains(sceneData);
+        }
+
+        public void ReloadCurrentScene()
+        {
+            LoadScene(_currentSceneData);
         }
     }
 }

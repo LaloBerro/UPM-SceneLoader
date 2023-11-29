@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace ScenesLoaderSystem
+namespace ScenesLoaderSystem.Core.Domain
 {
     public class SceneRemover
     {
@@ -11,7 +11,7 @@ namespace ScenesLoaderSystem
         {
             for (int i = 0; i < openSceneDatas.Count; i++)
             {
-                if (openSceneDatas[i].isLockedScene && !removeLockedScenes || openSceneDatas[i].hasToKeepOpen)
+                if (openSceneDatas[i].IsLockedScene && !removeLockedScenes || openSceneDatas[i].HasToKeepOpen)
                     continue;
 
                 await RemoveScene(openSceneDatas[i]);
@@ -26,7 +26,7 @@ namespace ScenesLoaderSystem
 
         public async Task RemoveScene(SceneData openScene)
         {
-            AsyncOperation removeSceneOperation = SceneManager.UnloadSceneAsync(openScene.nameScene);
+            AsyncOperation removeSceneOperation = SceneManager.UnloadSceneAsync(openScene.SceneName);
 
             while (!removeSceneOperation.isDone)
             {

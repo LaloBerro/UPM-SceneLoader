@@ -1,3 +1,5 @@
+using ScenesLoaderSystem.Core.Domain;
+
 namespace ScenesLoaderSystem
 {
     public class SceneDataLoader : ISceneDataLoader
@@ -21,9 +23,9 @@ namespace ScenesLoaderSystem
             _sceneLoader.RemoveCurrentAndSetPrincipal(_sceneData);
         }
 
-        public bool IsThiSceneDataOpenWithOutSceneData()
+        public bool IsThiSceneDataOpened()
         {
-            return _sceneLoader.IsThiSceneDataOpen(_sceneData);
+            return _sceneLoader.IsThisSceneDataOpened(_sceneData);
         }
     }
 }

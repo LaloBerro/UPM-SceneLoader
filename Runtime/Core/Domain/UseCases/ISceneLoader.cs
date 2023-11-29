@@ -1,7 +1,7 @@
 using System;
 using CommandQueues.Core;
 
-namespace ScenesLoaderSystem
+namespace ScenesLoaderSystem.Core.Domain
 {
     public interface ISceneLoader
     {
@@ -9,6 +9,7 @@ namespace ScenesLoaderSystem
         void LoadScene(SceneData sceneData, bool dontRemoveOpenScenes = false);
         void SetNodeCommandOfALoadedScene(INodeCommand nodeCommand);
         void RemoveCurrentAndSetPrincipal(SceneData currentSceneData);
-        bool IsThiSceneDataOpen(SceneData sceneData);
+        bool IsThisSceneDataOpened(SceneData sceneData);
+        void ReloadCurrentScene();
     }
 }

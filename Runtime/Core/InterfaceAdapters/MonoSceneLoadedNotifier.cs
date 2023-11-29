@@ -1,14 +1,15 @@
 using System.Threading.Tasks;
 using CommandQueues.Core;
+using Installers.Core;
 using ServiceLocatorPattern;
 using UnityEngine;
 
-namespace ScenesLoaderSystem
+namespace ScenesLoaderSystem.Core.Domain
 {
-    public class SceneLoadedNotifier : MonoBehaviour
+    public class MonoSceneLoadedNotifier : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private Installers.Core.MonoInstaller<ICommandQueue> _commandQueueInstaller;
+        [SerializeField] private MonoInstaller<ICommandQueue> _commandQueueInstaller;
 
         private async void Start()
         {

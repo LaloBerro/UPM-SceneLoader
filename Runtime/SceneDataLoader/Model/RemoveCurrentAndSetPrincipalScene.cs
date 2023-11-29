@@ -1,4 +1,6 @@
-﻿namespace ScenesLoaderSystem
+﻿using ScenesLoaderSystem.Core.Domain;
+
+namespace ScenesLoaderSystem
 {
     public class RemoveCurrentAndSetPrincipalScene : ISceneDataLoader
     {
