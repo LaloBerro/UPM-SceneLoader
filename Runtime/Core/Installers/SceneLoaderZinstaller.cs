@@ -18,7 +18,7 @@ namespace ScenesLoaderSystem.Core.Installers
         {
             ISceneLoader sceneLoader = new SceneLoader(_loadingScreenSceneDataSo.GetSceneData(), _firstOpenSceneDataSo.GetSceneData(), _emptySceneDataSo.GetSceneData());
 
-            ServiceLocator.Instance.Register<ISceneLoader>(sceneLoader);
+            ServiceLocatorInstance.Instance.Register<ISceneLoader>(sceneLoader);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ScenesLoaderSystem
 
         protected override ISceneDataLoader GetInitializedClass()
         {
-            ISceneLoader sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
+            ISceneLoader sceneLoader = ServiceLocatorInstance.Instance.Get<ISceneLoader>();
 
             return new SceneDataLoader(sceneLoader, _sceneDataSO.GetSceneData());
         }

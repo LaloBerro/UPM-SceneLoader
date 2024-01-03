@@ -14,7 +14,7 @@ namespace ScenesLoaderSystem.Core.Domain
         private async void Start()
         {
             await Task.Yield();
-            ServiceLocator.Instance.Get<ISceneLoader>().SetNodeCommandOfALoadedScene(_commandQueueInstaller.Data);
+            ServiceLocatorInstance.Instance.Get<ISceneLoader>().SetNodeCommandOfALoadedScene(_commandQueueInstaller.Data);
         }
     }
 }

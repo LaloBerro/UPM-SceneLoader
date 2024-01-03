@@ -14,7 +14,7 @@ namespace ScenesLoaderSystem
 
         public override void Install()
         {
-            _sceneLoader = ServiceLocator.Instance.Get<ISceneLoader>();
+            _sceneLoader = ServiceLocatorInstance.Instance.Get<ISceneLoader>();
             
             new SceneLoadedNotifier(_sceneLoader, _commandQueue);
         }
